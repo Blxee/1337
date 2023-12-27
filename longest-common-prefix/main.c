@@ -10,7 +10,6 @@ char* longestCommonPrefix(char** strs, int strsSize)
   if (prefix == NULL)
     return (NULL);
 
-  *prefix = '\0';
   strcpy(prefix, strs[i]);
   i = 1;
   while (i < strsSize)
