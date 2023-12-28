@@ -24,9 +24,13 @@ bool areNumbersAscending(char* s) {
   while ((token = strtok(NULL, " ")) != NULL)
   {
     if (*token >= '0' && *token <= '9')
+    {
       num = atoi(token);
-    if (prev >= num)
-      return (false);
+      printf("%d, %d\n", prev, num);
+      if (prev >= num)
+        return (false);
+      prev = num;
+    }
   }
 
   return (true);
