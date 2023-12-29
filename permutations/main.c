@@ -26,3 +26,11 @@ int** permute(
 
   return (permutations);
 }
+
+#include <stdio.h>
+int main(void)
+{
+  int nums[] = {1, 2, 3}, s = 3, rs, *rcs;
+  permute(nums, s, &rs, &rcs);
+  return 0;
+}
