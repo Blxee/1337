@@ -26,7 +26,6 @@ bool areNumbersAscending(char* s) {
     if (*token >= '0' && *token <= '9')
     {
       num = atoi(token);
-      printf("%d, %d\n", prev, num);
       if (prev >= num)
         return (false);
       prev = num;
