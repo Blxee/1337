@@ -11,14 +11,14 @@ struct Node {
   struct Node *next;
 };
 
-struct Map map_create(int size) {
-  struct Map map;
+struct Map *map_create(int size) {
+  struct Map *map = malloc(sizeof(struct Map));
 
-  map.buckets = malloc(sizeof(*map.buckets) * size);
-  map.size = size;
+  map->buckets = malloc(sizeof(struct Node *) * size);
+  map->size = size;
 
   for (int i = 0; i < size; i++)
-    map.buckets[i] = NULL;
+    map->buckets[i] = NULL;
 
   return map;
 }
@@ -39,13 +39,13 @@ void map_put(struct Map *map, int key, int value) {
 }
 
 int map_get(struct Map *map, int key) {
-  struct Node **node = &map->buckets[key % map->size];
+  struct Node *node = map->buckets[key % map->size];
 
-  while (*node != NULL && (*node)->key != key)
-    node = &(*node)->next;
+  while (node != NULL && node->key != key)
+    node = node->next;
 
-  if (*node != NULL)
-    return (*node)->value;
+  if (node != NULL)
+    return node->value;
   else
     return -1;
 }
@@ -64,22 +64,23 @@ void map_free(struct Map *map) {
   }
 
   free(map->buckets);
+  free(map);
 }
 
 /**
  * Note: The returned array must be malloced, assume caller calls free().
  */
 int *twoSum(int *nums, int numsSize, int target, int *returnSize) {
-  struct Map map = map_create(1024);
+  struct Map *map = map_create(1024);
   int *result = malloc(sizeof(int) * 2);
   *returnSize = 2;
 
   for (int i = 0; i < numsSize; i++)
-    map_put(&map, nums[i], i);
+    map_put(map, nums[i], i);
 
   for (int i = 0; i < numsSize; i++) {
     int current = nums[i];
-    int j = map_get(&map, target - current);
+    int j = map_get(map, target - current);
 
     if (j == -1 || i == j)
       continue;
@@ -92,7 +93,7 @@ int *twoSum(int *nums, int numsSize, int target, int *returnSize) {
     }
   }
 
-  map_free(&map);
+  map_free(map);
 
   return result;
 }
