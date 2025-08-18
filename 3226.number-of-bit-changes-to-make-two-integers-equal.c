@@ -1,21 +1,16 @@
 int minChanges(int n, int k) {
   int num;
-  int i;
+  int mask;
 
   num = 0;
-  i = 0;
-  while (i < 32)
+  mask = n ^ k;
+  if (k & ~n)
+    return (-1);
+  while (mask)
   {
-    if ((n & 1) != (k & 1))
-    {
-      if (n & 1)
-        num++;
-      else
-        return (-1);
-    }
-    n >>= 1;
-    k >>= 1;
-    i++;
+    if (mask & 1)
+      num++;
+    mask >>= 1;
   }
   return (num);
 }
